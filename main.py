@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
-import pyqrcode
 from PIL import Image
 from pyzbar.pyzbar import decode
 import cv2
+import pyqrcode
 
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
