@@ -47,3 +47,8 @@ tzdata==2024.1
 urllib3==2.2.1
 watchdog==4.0.0
 wheel==0.38.4
+qrcode
+Pillow
+streamlit
+web3
+pyzbar
