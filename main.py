@@ -2,26 +2,28 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import cv2
+from pyzbar.pyzbar import decode
 import pyqrcode
-import numpy as np
 
 # Função para verificar se o email está na lista de participantes
-def verificar_participante(email_afiliado):
+def verificar_participante():
+    email_afiliado = ler_qr_code()
     if email_afiliado in lista_participantes:
-        st.success(f"E-mail encontrado na lista de participantes: {email_afiliado}.")
+        st.success(f"E-mail encontrado na listaa de participantes: {email_afiliado}.")
     else:
         st.warning("E-mail não encontrado na lista de participantes.")
 
 # Função para ler o QR code
-def ler_qr_code(frame):
-    qr_decoder = cv2.QRCodeDetector()
-    data, bbox, _ = qr_decoder.detectAndDecodeMulti(frame)
-    if bbox is not None:
-        for i in range(len(bbox)):
-            cv2.polylines(frame, [np.int32(bbox[i])], True, (255, 0, 0), 2)
-            email_afiliado = data[i]
-            verificar_participante(email_afiliado)
-    return frame
+def ler_qr_code():
+    cap = cv2.VideoCapture(0)
+    while True:
+        ret, frame = cap.read()
+        decoded_objects = decode(frame)
+        for obj in decoded_objects:
+            email_afiliado = obj.data.decode("utf-8")
+            cap.release()
+            cv2.destroyAllWindows()
+            return email_afiliado
 
 # Função para gerar o QR code com o email do afiliado
 def gerar_qr_code(email_afiliado):
@@ -53,24 +55,11 @@ if st.button("Gerar QR Code"):
         imagem_qr = Image.open("qr_code_afiliado.png")
         st.image(imagem_qr, caption='QR Code gerado com sucesso!', use_column_width=True)
     else:
-        st.error("Por favor, insira um e-mail válido.")
+        st.error("Por favor, insira um e-mail hiiiikkdzdsadadii.")
 
-# Botão para iniciar a câmera e verificar o participante
+# Botão para verificar o participante
 if st.button("Verificar Participante"):
-    cap = cv2.VideoCapture(0)
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            st.error("Erro ao capturar vídeo.")
-            break
-        frame = ler_qr_code(frame)
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        st.image(frame, channels="RGB", caption="Pressione 'Esc' para encerrar.")
-        if cv2.waitKey(1) & 0xFF == 27:
-            break
-    cap.release()
-    cv2.destroyAllWindows()
-
+    verificar_participante()
 
 
 
