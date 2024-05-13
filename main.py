@@ -8,10 +8,13 @@ import pyqrcode
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
     email_afiliado = ler_qr_code()
-    if email_afiliado in lista_participantes:
-        st.success(f"E-mail encontrado na listaa de participantes: {email_afiliado}.")
+    if email_afiliado:
+        if email_afiliado in lista_participantes:
+            st.success(f"E-mail encontrado na lista de participantes: {email_afiliado}.")
+        else:
+            st.warning("E-mail não encontrado na lista de participantes.")
     else:
-        st.warning("E-mail não encontrado na lista de participantes.")
+        st.error("Nenhum QR code detectado.")
 
 # Função para ler o QR code
 def ler_qr_code():
@@ -19,11 +22,17 @@ def ler_qr_code():
     while True:
         ret, frame = cap.read()
         decoded_objects = decode(frame)
-        for obj in decoded_objects:
-            email_afiliado = obj.data.decode("utf-8")
-            cap.release()
-            cv2.destroyAllWindows()
-            return email_afiliado
+        if decoded_objects is not None:  # Check if QR code is detected
+            for obj in decoded_objects:
+                email_afiliado = obj.data.decode("utf-8")
+                cap.release()
+                cv2.destroyAllWindows()
+                return email_afiliado
+        cv2.imshow('QR Code Scanner', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    cap.release()
+    cv2.destroyAllWindows()
 
 # Função para gerar o QR code com o email do afiliado
 def gerar_qr_code(email_afiliado):
@@ -55,11 +64,13 @@ if st.button("Gerar QR Code"):
         imagem_qr = Image.open("qr_code_afiliado.png")
         st.image(imagem_qr, caption='QR Code gerado com sucesso!', use_column_width=True)
     else:
-        st.error("Por favor, insira um e-mail hiiiikkdzdsadadii.")
+        st.error("Por favor, insira um e-mail válido.")
 
 # Botão para verificar o participante
 if st.button("Verificar Participante"):
     verificar_participante()
+
+
 
 
 
