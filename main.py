@@ -55,7 +55,7 @@ if st.button("Gerar QR Code"):
         imagem_qr = Image.open("qr_code_afiliado.png")
         st.image(imagem_qr, caption='QR Code gerado com sucesso!', use_column_width=True)
     else:
-        st.error("Por favor, insira um e-mail.")
+        st.error("Por favor, insira um e-mail hiiiiii.")
 
 # Botão para verificar o participante
 if st.button("Verificar Participante"):
