@@ -5,3 +5,10 @@ freeglut3-dev
 libgtk2.0-dev
 libzbar0
 zbar-tools
+libgl1
+libzbar0
+libzbar-dev
+libsm6
+libxrender1
+libfontconfig1
+libice6
