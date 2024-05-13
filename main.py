@@ -18,7 +18,7 @@ def verificar_participante():
 
 # Função para ler o QR code
 def ler_qr_code():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     # Verificar se a câmera foi aberta corretamente
     if not cap.isOpened():
@@ -45,6 +45,11 @@ def ler_qr_code():
         cv2.imshow('QR Code Scanner', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+
+    # Fechar a câmera ao sair do loop
+    cap.release()
+    cv2.destroyAllWindows()
+
 
     # Fechar a câmera ao sair do loop
     cap.release()
