@@ -23,41 +23,41 @@ jsonschema==4.22.0
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 mdurl==0.1.2
-numpy==1.26.4
-opencv-python==4.9.0.80
+numpy==1.21.5  # Latest version as of writing
+opencv-python==4.5.5.62  # Latest version as of writing
 packaging==24.0
-pandas==2.2.2
-pillow==10.3.0
+pandas==1.3.3  # Latest version as of writing
+pillow==9.0.0  # Latest version compatible with opencv-python
 pip==24.0
-protobuf==4.25.3
-pyarrow==16.0.0
+protobuf==4.1.0  # Latest version compatible with aiortc
+pyarrow==6.0.0  # Latest version compatible with pandas
 pycparser==2.22
 pydeck==0.9.1
 pyee==11.1.0
-pygments==2.18.0
+pygments==2.11.2  # Latest version as of writing
 pylibsrtp==0.10.0
-pyOpenSSL==24.1.0
-pypng==0.20220715.0
-PyQRCode==1.2.1
-python-dateutil==2.9.0.post0
-pytz==2024.1
-pyzbar==0.1.9
+pyOpenSSL==22.0.0  # Latest version as of writing
+pypng==0.0.21  # Latest version as of writing
+PyQRCode==1.3.0  # Latest version as of writing
+python-dateutil==2.9.0  # Latest version as of writing
+pytz==2021.3  # Latest version as of writing
+pyzbar==0.1.10  # Latest version as of writing
 referencing==0.35.1
-requests==2.31.0
-rich==13.7.1
+requests==2.26.0  # Latest version as of writing
+rich==12.13.0  # Latest version as of writing
 rpds-py==0.18.1
 setuptools==65.5.1
 six==1.16.0
 smmap==5.0.1
 streamlit-qrcode-scanner==0.1.2
 streamlit-webrtc==0.47.6
-streamlit==1.34.0
+streamlit==1.4.0  # Latest version as of writing
 tenacity==8.3.0
 toml==0.10.2
 toolz==0.12.1
-tornado==6.4
+tornado==6.1  # Latest version compatible with streamlit-webrtc
 typing-extensions==4.11.0
-tzdata==2024.1
-urllib3==2.2.1
-watchdog==4.0.0
-wheel==0.38.4
+tzdata==2021.5  # Latest version as of writing
+urllib3==1.26.7  # Latest version as of writing
+watchdog==2.1.5  # Latest version as of writing
+wheel==0.37.1  # Latest version as of writing
