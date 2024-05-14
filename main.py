@@ -6,7 +6,7 @@ from pyzbar.pyzbar import decode
 import pyqrcode
 import numpy as np
 
-st.title("Verificador de Participantes e Gerador de QR Code")
+st.title("AdCombo QR-CODE para MeetUP em São Paulo 18 de Maio.")
 
 def gerar_qr_code(email_afiliado):
     qr_code = pyqrcode.create(email_afiliado)
@@ -28,16 +28,16 @@ def verificar_participante():
     email_afiliado = data
     if email_afiliado:
         if email_afiliado in lista_participantes:
-            st.success(f"Email found in the list of participants: {email_afiliado}.")
+            st.success(f"Email encontrado na lista de participantes: {email_afiliado}.")
         else:
-            st.warning("Email not found in the list of participants.")
+            st.warning("Email não encontrado na lista de participantes")
     else:
-        st.error("No QR code detected.")
+        st.error("Não foi possível detetar o QR-CODE")
 
 
 # Função para ler o QR code
 
-image = st.camera_input("Show QR code")
+image = st.camera_input("Mostra o seu QR-CODE")
 
 if image is not None:
     bytes_data = image.getvalue()
