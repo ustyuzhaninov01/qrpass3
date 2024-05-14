@@ -7,6 +7,8 @@ import pyqrcode
 import numpy as np
 import csv
 import os
+from git import Repo
+
 
 st.title("AdCombo QR-CODE para MeetUP em São Paulo 18 de Maio.")
 
@@ -26,6 +28,13 @@ if st.button("Gerar QR Code"):
     else:
         st.error("Por favor, insira um e-mail válido.")
 # Função para verificar se o email está na lista de participantes
+def commit_and_push_changes():
+    repo = Repo(os.getcwd())
+    repo.git.add("participantes_identificados.csv")
+    repo.index.commit("Atualização automática do arquivo participantes_identificados.csv")
+    origin = repo.remote(name="origin")
+    origin.push()
+
 def verificar_participante():
     # Проверяем, была ли предоставлена фотография QR-кода
     if "data" not in globals():
@@ -47,6 +56,8 @@ def verificar_participante():
             with open("participantes_identificados.csv", mode="a", newline="") as file:
                 writer = csv.writer(file)
                 writer.writerow([email_afiliado])
+            # Выполняем коммит и отправку изменений в GitHub
+            commit_and_push_changes()
         else:
             st.warning("Email não encontrado na lista de participantes")
     else:
