@@ -6,7 +6,23 @@ from pyzbar.pyzbar import decode
 import pyqrcode
 import numpy as np
 
+st.title("Verificador de Participantes e Gerador de QR Code")
 
+def gerar_qr_code(email_afiliado):
+    qr_code = pyqrcode.create(email_afiliado)
+    qr_code.png("qr_code_afiliado.png", scale=8)
+
+
+email_afiliado = st.text_input("Digite o e-mail do afiliado")
+
+# Botão para gerar o QR code
+if st.button("Gerar QR Code"):
+    if email_afiliado:
+        gerar_qr_code(email_afiliado)
+        imagem_qr = Image.open("qr_code_afiliado.png")
+        st.image(imagem_qr, caption='QR Code gerado com sucesso!', use_column_width=True)
+    else:
+        st.error("Por favor, insira um e-mail válido.")
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
     email_afiliado = data
@@ -33,9 +49,7 @@ if image is not None:
 
 
 # Função para gerar o QR code com o email do afiliado
-def gerar_qr_code(email_afiliado):
-    qr_code = pyqrcode.create(email_afiliado)
-    qr_code.png("qr_code_afiliado.png", scale=8)
+
 
 # Carregar a lista de participantes do arquivo CSV
 def carregar_lista_participantes():
@@ -47,22 +61,13 @@ def carregar_lista_participantes():
         st.error("Arquivo 'melist.csv' não encontrado.")
 
 # Criar a Streamlit app
-st.title("Verificador de Participantes e Gerador de QR Code")
+
 
 # Carregar a lista de participantes
 lista_participantes = carregar_lista_participantes()
 
 # Criar um campo de texto para inserir o email do afiliado
-email_afiliado = st.text_input("Digite o e-mail do afiliado")
 
-# Botão para gerar o QR code
-if st.button("Gerar QR Code"):
-    if email_afiliado:
-        gerar_qr_code(email_afiliado)
-        imagem_qr = Image.open("qr_code_afiliado.png")
-        st.image(imagem_qr, caption='QR Code gerado com sucesso!', use_column_width=True)
-    else:
-        st.error("Por favor, insira um e-mail válido.")
 
 # Botão para verificar o participante
 if st.button("Verificar Participante"):
