@@ -12,11 +12,12 @@ def verificar_participante():
     email_afiliado = data
     if email_afiliado:
         if email_afiliado in lista_participantes:
-            st.success(f"E-mail encontrado na lista de participantes: {email_afiliado}.")
+            st.success(f"Email found in the list of participants: {email_afiliado}.")
         else:
-            st.warning("E-mail não encontrado na lista de participantes.")
+            st.warning("Email not found in the list of participants.")
     else:
-        st.error("Nenhum QR code detectado.")
+        st.error("No QR code detected.")
+
 
 # Função para ler o QR code
 
