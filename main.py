@@ -18,27 +18,6 @@ def verificar_participante():
     else:
         st.error("Nenhum QR code detectado.")
 
-# Função para ler o QR code
-
-image = st.camera_input("Show QR code")
-
-if image is not None:
-    bytes_data = image.getvalue()
-    cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-
-    detector = cv2.QRCodeDetector()
-
-    data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
-
-    st.write("Here!")
-    st.write(data)
-
-
-
-
-
-
-
 # Função para gerar o QR code com o email do afiliado
 def gerar_qr_code(email_afiliado):
     qr_code = pyqrcode.create(email_afiliado)
@@ -76,6 +55,13 @@ if st.button("Verificar Participante"):
     verificar_participante()
 
 
+# Função para ler o QR code
 
+image = st.camera_input("Show QR code")
 
-
+if image is not None:
+    bytes_data = image.getvalue()
+    cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+    detector = cv2.QRCodeDetector()
+    data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
+    st.write(data)
