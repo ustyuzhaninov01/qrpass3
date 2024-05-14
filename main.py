@@ -34,11 +34,11 @@ def generate_qr_code(email):
 # Load the list of participants from the CSV file
 def load_participant_list():
     try:
-        df = pd.read_csv("participant_list.csv")  # Replace "participant_list.csv" with the path to your CSV file
+        df = pd.read_csv("Melist.csv")  # Replace "participant_list.csv" with the path to your CSV file
         participant_list = df['mail'].tolist()
         return participant_list
     except FileNotFoundError:
-        st.error("File 'participant_list.csv' not found.")
+        st.error("File 'Melist.csv' not found.")
 
 # Create the Streamlit app
 st.title("Participant Verifier and QR Code Generator")
