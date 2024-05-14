@@ -6,63 +6,67 @@ from pyzbar.pyzbar import decode
 import pyqrcode
 import numpy as np
 
-# Function to verify if the email is in the list of participants
-def verify_participant(email):
-    if email:
-        if email in participant_list:
-            st.success(f"Email found in the list of participants: {email}.")
+
+# Função para verificar se o email está na lista de participantes
+def verificar_participante():
+    email_afiliado = data
+    if email_afiliado:
+        if email_afiliado in lista_participantes:
+            st.success(f"Email found in the list of participants: {email_afiliado}.")
         else:
             st.warning("Email not found in the list of participants.")
     else:
         st.error("No QR code detected.")
 
-# Function to read the QR code
-def read_qr_code(image):
-    if image is not None:
-        bytes_data = image.getvalue()
-        cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-        detector = cv2.QRCodeDetector()
-        data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
-        return data
-    return None
 
-# Function to generate the QR code with the affiliate's email
-def generate_qr_code(email):
-    qr_code = pyqrcode.create(email)
-    qr_code.png("qr_code_affiliate.png", scale=8)
+# Função para ler o QR code
 
-# Load the list of participants from the CSV file
-def load_participant_list():
+image = st.camera_input("Show QR code")
+
+if image is not None:
+    bytes_data = image.getvalue()
+    cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+    detector = cv2.QRCodeDetector()
+    data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
+    st.write(data)
+
+
+
+# Função para gerar o QR code com o email do afiliado
+def gerar_qr_code(email_afiliado):
+    qr_code = pyqrcode.create(email_afiliado)
+    qr_code.png("qr_code_afiliado.png", scale=8)
+
+# Carregar a lista de participantes do arquivo CSV
+def carregar_lista_participantes():
     try:
-        df = pd.read_csv("Melist.csv")  # Replace "participant_list.csv" with the path to your CSV file
-        participant_list = df['mail'].tolist()
-        return participant_list
+        df = pd.read_csv("Melist.csv")  # Substitua "meelist.csv" pelo caminho do seu arquivo CSV
+        lista_participantes = df['mail'].tolist()
+        return lista_participantes
     except FileNotFoundError:
-        st.error("File 'Melist.csv' not found.")
+        st.error("Arquivo 'melist.csv' não encontrado.")
 
-# Create the Streamlit app
-st.title("Participant Verifier and QR Code Generator")
+# Criar a Streamlit app
+st.title("Verificador de Participantes e Gerador de QR Code")
 
-# Load the list of participants
-participant_list = load_participant_list()
+# Carregar a lista de participantes
+lista_participantes = carregar_lista_participantes()
 
-# Create a text input to enter the affiliate's email
-affiliate_email = st.text_input("Enter the affiliate's email")
+# Criar um campo de texto para inserir o email do afiliado
+email_afiliado = st.text_input("Digite o e-mail do afiliado")
 
-# Button to generate the QR code
-if st.button("Generate QR Code"):
-    if affiliate_email:
-        generate_qr_code(affiliate_email)
-        qr_image = Image.open("qr_code_affiliate.png")
-        st.image(qr_image, caption='QR Code generated successfully!', use_column_width=True)
+# Botão para gerar o QR code
+if st.button("Gerar QR Code"):
+    if email_afiliado:
+        gerar_qr_code(email_afiliado)
+        imagem_qr = Image.open("qr_code_afiliado.png")
+        st.image(imagem_qr, caption='QR Code gerado com sucesso!', use_column_width=True)
     else:
-        st.error("Please enter a valid email.")
+        st.error("Por favor, insira um e-mail válido.")
 
-# Button to verify the participant
-if st.button("Verify Participant"):
-    qr_image = st.camera_input("Show QR code")
-    email_from_qr = read_qr_code(qr_image)
-    verify_participant(email_from_qr)
+# Botão para verificar o participante
+if st.button("Verificar Participante"):
+    verificar_participante()
 
 
 
