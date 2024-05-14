@@ -24,21 +24,11 @@ if st.button("Gerar QR Code"):
     else:
         st.error("Por favor, insira um e-mail válido.")
 # Função para verificar se o email está na lista de participantes
-import csv
-
 def verificar_participante():
     email_afiliado = data
     if email_afiliado:
         if email_afiliado in lista_participantes:
             st.success(f"Email encontrado na lista de participantes: {email_afiliado}.")
-            # Salvar o email_afiliado em um novo arquivo CSV
-            with open("afiliados_identificados.csv", "a", newline='') as csvfile:
-                fieldnames = ['email']
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                # Verificar se o arquivo CSV está vazio e adicionar o cabeçalho se necessário
-                if csvfile.tell() == 0:
-                    writer.writeheader()
-                writer.writerow({'email': email_afiliado})
         else:
             st.warning("Email não encontrado na lista de participantes")
     else:
