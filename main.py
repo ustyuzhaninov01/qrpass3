@@ -37,7 +37,7 @@ def verificar_participante():
 
 # Função para ler o QR code
 
-image = st.camera_input("Mostra o seu QR-CODE")
+image = st.camera_input("Mostre o seu QR-CODE")
 
 if image is not None:
     bytes_data = image.getvalue()
