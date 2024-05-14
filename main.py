@@ -25,6 +25,10 @@ if st.button("Gerar QR Code"):
         st.error("Por favor, insira um e-mail válido.")
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
+    if "data" not in globals():
+        st.error("Nenhuma foto do código QR foi fornecida. Por favor, faça o upload de uma foto antes de verificar.")
+        return
+
     email_afiliado = data
     if email_afiliado:
         if email_afiliado in lista_participantes:
@@ -32,7 +36,8 @@ def verificar_participante():
         else:
             st.warning("Email não encontrado na lista de participantes")
     else:
-        st.error("Não foi possível detetar o QR-CODE")
+        st.error("Não foi possível detectar o QR-CODE")
+
 
 
 # Função para ler o QR code
