@@ -6,6 +6,7 @@ from pyzbar.pyzbar import decode
 import pyqrcode
 import numpy as np
 import csv
+import os
 
 st.title("AdCombo QR-CODE para MeetUP em São Paulo 18 de Maio.")
 
@@ -37,7 +38,12 @@ def verificar_participante():
         # Проверяем, есть ли электронный адрес в списке участников
         if email_afiliado in lista_participantes:
             st.success(f"Email encontrado na lista de participantes: {email_afiliado}.")
-            # Если электронный адрес найден, добавляем его в новый CSV-файл
+            # Если файл еще не существует, создаем его и записываем заголовки CSV
+            if not os.path.exists("participantes_identificados.csv"):
+                with open("participantes_identificados.csv", mode="w", newline="") as file:
+                    writer = csv.writer(file)
+                    writer.writerow(["Email"])
+            # Добавляем идентифицированный адрес электронной почты в файл CSV
             with open("participantes_identificados.csv", mode="a", newline="") as file:
                 writer = csv.writer(file)
                 writer.writerow([email_afiliado])
