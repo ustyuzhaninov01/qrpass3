@@ -16,7 +16,7 @@ def gerar_qr_code(email_afiliado):
 email_afiliado = st.text_input("Digite o e-mail do afiliado")
 
 # Botão para gerar o QR code
-if st.button("Gerar QR Codeeeee"):
+if st.button("Gerar QR Code"):
     if email_afiliado:
         gerar_qr_code(email_afiliado)
         imagem_qr = Image.open("qr_code_afiliado.png")
