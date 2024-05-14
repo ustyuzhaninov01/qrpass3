@@ -22,25 +22,44 @@ import streamlit as st
 from pyzbar.pyzbar import decode
 import cv2
 
-def ler_qr_code_from_camera():
-    cap = cv2.VideoCapture(0)
-    ret, frame = cap.read()
-    if not ret:
-        st.error("Failed to capture frame from camera.")
+def ler_qr_code():
+    cap = cv2.VideoCapture(1)
+
+    # Verificar se a câmera foi aberta corretamente
+    if not cap.isOpened():
+        st.error("Não foi possível abrir a câmera. Por favor, verifique se está conectada corretamente.")
         return None
-    decoded_objects = decode(frame)
+
+    cap = cv2.VideoCapture(0)
+    while True:
+        ret, frame = cap.read()
+
+        # Verificar se o quadro foi lido corretamente
+        if not ret:
+            st.error("Não foi possível ler o quadro da câmera.")
+            return None
+
+        decoded_objects = decode(frame)
+        if decoded_objects is not None:  # Check if QR code is detected
+            for obj in decoded_objects:
+                email_afiliado = obj.data.decode("utf-8")
+                cap.release()
+                cv2.destroyAllWindows()
+                return email_afiliado
+
+        # Exibir o quadro da câmera
+        cv2.imshow('QR Code Scanner', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    # Fechar a câmera ao sair do loop
     cap.release()
-    if decoded_objects:
-        email_afiliado = decoded_objects[0].data.decode("utf-8")
-        return email_afiliado
-    return None
+    cv2.destroyAllWindows()
 
-email = ler_qr_code_from_camera()
 
-if email:
-    st.success(f"QR Code captured! Email: {email}")
-else:
-    st.warning("No QR Code captured.")
+    # Fechar a câmera ao sair do loop
+    cap.release()
+    cv2.destroyAllWindows()
 
 
 
