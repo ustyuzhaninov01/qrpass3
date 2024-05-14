@@ -7,7 +7,7 @@ import pyqrcode
 
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
-    email_afiliado = ler_qr_code_from_camera()
+    email_afiliado = ler_qr_code()
     if email_afiliado:
         if email_afiliado in lista_participantes:
             st.success(f"E-mail encontrado na lista de participantes: {email_afiliado}.")
@@ -17,28 +17,10 @@ def verificar_participante():
         st.error("Nenhum QR code detectado.")
 
 # Função para ler o QR code
-
-import streamlit as st
-from pyzbar.pyzbar import decode
-import cv2
-
 def ler_qr_code():
-    cap = cv2.VideoCapture(1)
-
-    # Verificar se a câmera foi aberta corretamente
-    if not cap.isOpened():
-        st.error("Não foi possível abrir a câmera. Por favor, verifique se está conectada corretamente.")
-        return None
-
     cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
-
-        # Verificar se o quadro foi lido corretamente
-        if not ret:
-            st.error("Não foi possível ler o quadro da câmera.")
-            return None
-
         decoded_objects = decode(frame)
         if decoded_objects is not None:  # Check if QR code is detected
             for obj in decoded_objects:
@@ -46,22 +28,11 @@ def ler_qr_code():
                 cap.release()
                 cv2.destroyAllWindows()
                 return email_afiliado
-
-        # Exibir o quadro da câmera
         cv2.imshow('QR Code Scanner', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
-    # Fechar a câmera ao sair do loop
     cap.release()
     cv2.destroyAllWindows()
-
-
-    # Fechar a câmera ao sair do loop
-    cap.release()
-    cv2.destroyAllWindows()
-
-
 
 
 
