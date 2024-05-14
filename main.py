@@ -9,7 +9,7 @@ import numpy as np
 
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
-    email_afiliado = ler_qr_code()
+    email_afiliado = data
     if email_afiliado:
         if email_afiliado in lista_participantes:
             st.success(f"E-mail encontrado na lista de participantes: {email_afiliado}.")
@@ -19,25 +19,6 @@ def verificar_participante():
         st.error("Nenhum QR code detectado.")
 
 # Função para ler o QR code
-def ler_qr_code():
-    cap = cv2.VideoCapture(0)
-    while True:
-        ret, frame = cap.read()
-        decoded_objects = decode(frame)
-        if decoded_objects is not None:  # Check if QR code is detected
-            for obj in decoded_objects:
-                email_afiliado = obj.data.decode("utf-8")
-                cap.release()
-                cv2.destroyAllWindows()
-                return email_afiliado
-        cv2.imshow('QR Code Scanner', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    cap.release()
-    cv2.destroyAllWindows()
-
-
-import streamlit as st
 
 image = st.camera_input("Show QR code")
 
