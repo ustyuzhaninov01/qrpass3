@@ -71,7 +71,11 @@ lista_participantes = carregar_lista_participantes()
 
 # Botão para verificar o participante
 if st.button("Verificar Participante"):
-    verificar_participante()
+    if not email_afiliado:
+        st.error("Nenhum email fornecido. Por favor escanea o QR-CODE para verificar.")
+    else:
+        verificar_participante(email_afiliado)
+
 
 
 
