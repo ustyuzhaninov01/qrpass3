@@ -4,6 +4,8 @@ from PIL import Image
 import cv2
 from pyzbar.pyzbar import decode
 import pyqrcode
+import numpy as np
+
 
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
@@ -18,40 +20,26 @@ def verificar_participante():
 
 # Função para ler o QR code
 def ler_qr_code():
-    cap = cv2.VideoCapture(0)
-    while True:
-        ret, frame = cap.read()
-        decoded_objects = decode(frame)
-        if decoded_objects is not None:  # Check if QR code is detected
-            for obj in decoded_objects:
-                email_afiliado = obj.data.decode("utf-8")
-                cap.release()
-                cv2.destroyAllWindows()
-                return email_afiliado
-        cv2.imshow('QR Code Scanner', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    cap.release()
-    cv2.destroyAllWindows()
+    unique_key = str(uuid.uuid4())
+    image = st.camera_input("Show QR code", key=unique_key)
+    if image is not None:
+        bytes_data = image.getvalue()
+        cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
 
+        detector = cv2.QRCodeDetector()
 
-import cv2
-import numpy as np
-import streamlit as st
+        data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
 
-image = st.camera_input("Show QR code")
+        if data:
+            return data
 
-if image is not None:
-    bytes_data = image.getvalue()
-    cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+    return None
 
-    detector = cv2.QRCodeDetector()
-
-    data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
-
-    st.write("Here!")
-    st.write(data)
-
+email = ler_qr_code()
+if email:
+    st.success(f"QR Code captured! Email: {email}")
+else:
+    st.warning("No QR Code captured.")
 
 
 
