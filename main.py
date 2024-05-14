@@ -17,21 +17,12 @@ def verificar_participante():
         st.error("Nenhum QR code detectado.")
 
 # Função para ler o QR code
-import cv2
-from pyzbar.pyzbar import decode
-
 def ler_qr_code():
     cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
-        if not ret:
-            print("Failed to capture frame from camera.")
-            continue
-        # Convert the frame to grayscale
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # Decode QR code from the grayscale frame
-        decoded_objects = decode(gray)
-        if decoded_objects:  # Check if QR code is detected
+        decoded_objects = decode(frame)
+        if decoded_objects is not None:  # Check if QR code is detected
             for obj in decoded_objects:
                 email_afiliado = obj.data.decode("utf-8")
                 cap.release()
@@ -42,10 +33,6 @@ def ler_qr_code():
             break
     cap.release()
     cv2.destroyAllWindows()
-
-email = ler_qr_code()
-print("Detected email:", email)  # Just for debugging, replace with your desired handling
-
 
 
 
