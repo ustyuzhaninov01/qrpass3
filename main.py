@@ -18,7 +18,7 @@ def verificar_participante():
 
 # Função para ler o QR code
 def ler_qr_code():
-    cap = cv2.VideoCapture(0)
+    cap = st.camera_input("Take a picture")
     while True:
         ret, frame = cap.read()
         decoded_objects = decode(frame)
@@ -33,15 +33,6 @@ def ler_qr_code():
             break
     cap.release()
     cv2.destroyAllWindows()
-
-
-
-import streamlit as st
-
-picture = st.camera_input("Take a picture")
-
-if picture:
-    st.image(picture)
 
 
 
