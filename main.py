@@ -5,6 +5,7 @@ import cv2
 from pyzbar.pyzbar import decode
 import pyqrcode
 import numpy as np
+import csv
 
 st.title("AdCombo QR-CODE para MeetUP em São Paulo 18 de Maio.")
 
@@ -25,14 +26,21 @@ if st.button("Gerar QR Code"):
         st.error("Por favor, insira um e-mail válido.")
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
+    # Проверяем, была ли предоставлена фотография QR-кода
     if "data" not in globals():
         st.error("Nenhuma foto do código QR foi fornecida. Por favor, faça o upload de uma foto antes de verificar.")
         return
 
+    # Получаем электронный адрес из QR-кода
     email_afiliado = data
     if email_afiliado:
+        # Проверяем, есть ли электронный адрес в списке участников
         if email_afiliado in lista_participantes:
             st.success(f"Email encontrado na lista de participantes: {email_afiliado}.")
+            # Если электронный адрес найден, добавляем его в новый CSV-файл
+            with open("participantes_identificados.csv", mode="a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow([email_afiliado])
         else:
             st.warning("Email não encontrado na lista de participantes")
     else:
