@@ -6,7 +6,7 @@ from pyzbar.pyzbar import decode
 import pyqrcode
 import numpy as np
 
-st.title("Verificador de Participantes e Gerador de QR Code")
+
 # Função para verificar se o email está na lista de participantes
 def verificar_participante():
     email_afiliado = data
@@ -47,11 +47,7 @@ def carregar_lista_participantes():
         st.error("Arquivo 'melist.csv' não encontrado.")
 
 # Criar a Streamlit app
-
-# Botão para verificar o participante
-if st.button("Verificar Participante"):
-    verificar_participante()
-
+st.title("Verificador de Participantes e Gerador de QR Code")
 
 # Carregar a lista de participantes
 lista_participantes = carregar_lista_participantes()
@@ -68,6 +64,9 @@ if st.button("Gerar QR Code"):
     else:
         st.error("Por favor, insira um e-mail válido.")
 
+# Botão para verificar o participante
+if st.button("Verificar Participante"):
+    verificar_participante()
 
 
 
