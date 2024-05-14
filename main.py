@@ -13,10 +13,10 @@ def gerar_qr_code(email_afiliado):
     qr_code.png("qr_code_afiliado.png", scale=8)
 
 
-email_afiliado = st.text_input("Digite o e-mail para gerar o QR-CODE")
+email_afiliado = st.text_input("Digite o e-mail do afiliado")
 
 # Botão para gerar o QR code
-if st.button("Gerar QR Code"):
+if st.button("Gerar QR Codeeeee"):
     if email_afiliado:
         gerar_qr_code(email_afiliado)
         imagem_qr = Image.open("qr_code_afiliado.png")
@@ -71,11 +71,7 @@ lista_participantes = carregar_lista_participantes()
 
 # Botão para verificar o participante
 if st.button("Verificar Participante"):
-    if not email_afiliado:
-        st.error("Nenhum email fornecido. Por favor escanea o QR-CODE para verificar.")
-    else:
-        verificar_participante(email_afiliado)
-
+    verificar_participante()
 
 
 
